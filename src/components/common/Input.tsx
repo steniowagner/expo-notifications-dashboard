@@ -17,13 +17,7 @@ const shouldComponentUpdate = (prevProps: Props, nextProps: Props) => {
   return true;
 };
 
-const Input = ({
-  errorMessage,
-  setValue,
-  value,
-  label,
-  id,
-}: Props) => (
+const Input = ({ errorMessage, setValue, value, label, id }: Props) => (
   <TextField
     onChange={({ target }) => setValue(target.value)}
     variant="outlined"

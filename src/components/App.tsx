@@ -1,8 +1,7 @@
 import React from 'react';
 import { ThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core/styles';
 
-import HeaderBar from './components/common/HeaderBar';
-import Snackbar from './components/common/snackbar/Snackbar';
+import HeaderBar from './common/HeaderBar';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -34,13 +33,6 @@ const App = () => {
         theme={theme}
       >
         <HeaderBar />
-        <Snackbar
-          onClose={() => {}}
-          duration={500}
-          message="snackbarConfig.message"
-          type="WARNING"
-          isOpen
-        />
       </ThemeProvider>
     </div>
   );
