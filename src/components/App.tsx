@@ -1,6 +1,7 @@
 import React from 'react';
 import { ThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core/styles';
 
+import Notifications from './pages/notifications/Notifications';
 import HeaderBar from './common/HeaderBar';
 
 const useStyles = makeStyles(() => ({
@@ -33,6 +34,7 @@ const App = () => {
         theme={theme}
       >
         <HeaderBar />
+        <Notifications />
       </ThemeProvider>
     </div>
   );

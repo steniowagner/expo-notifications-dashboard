@@ -17,6 +17,7 @@ export type HeaderCell = {
 };
 
 export interface TableConfig {
+  initiallyOrderedBy: string;
   headerCells: HeaderCell[];
   selectedVerifier: string;
   filters: string[];

@@ -11,7 +11,12 @@ interface Props {
 }
 
 const EnhancedTableRow = ({
-  onClickTableRow, isItemSelected, withCheckboxes, cellsIds, labelId, rowData,
+  onClickTableRow,
+  isItemSelected,
+  withCheckboxes,
+  cellsIds,
+  labelId,
+  rowData,
 }: Props) => {
   if (!cellsIds) {
     return null;
@@ -24,12 +29,9 @@ const EnhancedTableRow = ({
       selected={isItemSelected}
       role="checkbox"
       tabIndex={-1}
-      hover
-    >
+      hover>
       {withCheckboxes && (
-        <TableCell
-          padding="checkbox"
-        >
+        <TableCell padding="checkbox">
           <Checkbox
             inputProps={{ 'aria-labelledby': labelId }}
             checked={isItemSelected}
@@ -37,11 +39,8 @@ const EnhancedTableRow = ({
           />
         </TableCell>
       )}
-      {cellsIds.map((cellId) => (
-        <TableCell
-          key={cellId}
-          align="left"
-        >
+      {cellsIds.map(cellId => (
+        <TableCell key={cellId} align="left">
           {rowData[cellId]}
         </TableCell>
       ))}

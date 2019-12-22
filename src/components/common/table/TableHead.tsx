@@ -72,7 +72,10 @@ const EnhancedTableHead = ({
           </TableCell>
         )}
         {headerCells.map(headerCell => (
-          <TableCell sortDirection={orderBy === headerCell.id ? order : false} key={headerCell.id} align="left">
+          <TableCell
+            sortDirection={orderBy === headerCell.id ? order : false}
+            key={headerCell.id}
+            align="left">
             <TableSortLabel
               onClick={createSortHandler(headerCell.id)}
               active={orderBy === headerCell.id}

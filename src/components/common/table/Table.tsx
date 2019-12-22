@@ -1,6 +1,14 @@
 import React, { memo } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { CircularProgress, TablePagination, TableBody, TableCell, TableRow, Paper, Table } from '@material-ui/core';
+import {
+  CircularProgress,
+  TablePagination,
+  TableBody,
+  TableCell,
+  TableRow,
+  Paper,
+  Table,
+} from '@material-ui/core';
 
 import HeaderToolbar from './HeaderToolbar';
 import EnhancedTableRow from './TableRow';
@@ -10,7 +18,7 @@ import Filter from './Filter';
 
 import { TableConfig } from '../../../types';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     marginTop: theme.spacing(3),
@@ -36,9 +44,9 @@ const useStyles = makeStyles(theme => ({
 
 const shouldComponentUpdate = (previousProps: Props, nextProps: Props) => {
   if (
-    previousProps.itemsSelectedCount !== nextProps.itemsSelectedCount ||
-    previousProps.dataset.length !== nextProps.dataset.length ||
-    previousProps.loading !== nextProps.loading
+    previousProps.itemsSelectedCount !== nextProps.itemsSelectedCount
+    || previousProps.dataset.length !== nextProps.dataset.length
+    || previousProps.loading !== nextProps.loading
   ) {
     return false;
   }
@@ -73,7 +81,9 @@ const EnhancedTable = ({
   dataset,
   config,
 }: Props) => {
-  const { initiallyOrderedBy, selectedVerifier, headerCells, filters, fields } = config;
+  const {
+    initiallyOrderedBy, selectedVerifier, headerCells, filters, fields,
+  } = config;
 
   const {
     handleChangeRowsPerPage,
@@ -93,8 +103,12 @@ const EnhancedTable = ({
 
   if (loading) {
     return (
-      <div className={classes.root}>
-        <Paper className={classes.loadingWrapper}>
+      <div
+        className={classes.root}
+      >
+        <Paper
+          className={classes.loadingWrapper}
+        >
           <CircularProgress />
         </Paper>
       </div>
@@ -102,12 +116,32 @@ const EnhancedTable = ({
   }
 
   return (
-    <div className={classes.root}>
-      <Paper className={classes.paper}>
-        {withHeader && <HeaderToolbar numberItemsSelected={itemsSelectedCount} onClickDelete={onRemoveSelectedItems} />}
-        {withFilter && <Filter onFilter={onFilter} />}
-        <div className={classes.tableWrapper}>
-          <Table aria-labelledby="tableTitle" aria-label="enhanced table" className={classes.table} size="medium">
+    <div
+      className={classes.root}
+    >
+      <Paper
+        className={classes.paper}
+      >
+        {withHeader && (
+          <HeaderToolbar
+            numberItemsSelected={itemsSelectedCount}
+            onClickDelete={onRemoveSelectedItems}
+          />
+        )}
+        {withFilter && (
+        <Filter
+          onFilter={onFilter}
+        />
+        )}
+        <div
+          className={classes.tableWrapper}
+        >
+          <Table
+            aria-labelledby="tableTitle"
+            aria-label="enhanced table"
+            className={classes.table}
+            size="medium"
+          >
             <TableHead
               numberItemsSelected={itemsSelectedCount}
               onSelectAllClick={onSelectAllItems}
@@ -136,8 +170,12 @@ const EnhancedTable = ({
                 );
               })}
               {numberEmptyRows > 0 && (
-                <TableRow style={{ height: 53 * numberEmptyRows }}>
-                  <TableCell colSpan={6} />
+                <TableRow
+                  style={{ height: 53 * numberEmptyRows }}
+                >
+                  <TableCell
+                    colSpan={6}
+                  />
                 </TableRow>
               )}
             </TableBody>
@@ -147,7 +185,6 @@ const EnhancedTable = ({
           labelDisplayedRows={({ from, to, count }) => `${from}-${to === -1 ? count : to} of ${count}`}
           onChangePage={(_, newPage) => setPage(newPage)}
           onChangeRowsPerPage={handleChangeRowsPerPage}
-          labelRowsPerPage="Items per page"
           rowsPerPageOptions={[5, 10, 25]}
           backIconButtonProps={{
             'aria-label': 'previous page',
