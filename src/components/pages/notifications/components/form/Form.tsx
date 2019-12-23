@@ -42,15 +42,13 @@ const Form = ({
   setNoUserSelectedError, onSubmitForm, loading, users,
 }: Props) => {
   const {
+    removeSelectedTokens,
     onSelectAllTokens,
     onPressSendButton,
     setFormInputValue,
-    setTokensSelected,
     tokensSelected,
     onSelectToken,
     inputErrors,
-    setMessage,
-    setTitle,
     message,
     title,
   } = useNotificationsForm(users, onSubmitForm, setNoUserSelectedError);
@@ -74,14 +72,14 @@ const Form = ({
           className={classes.inputWrapper}
         >
           <Input
-            setValue={(value) => setFormInputValue('title', value, setTitle)}
+            setValue={(value) => setFormInputValue('title', value)}
             errorMessage={inputErrors.title}
             label="Title*"
             value={title}
             id="title"
           />
           <Input
-            setValue={(value) => setFormInputValue('message', value, setMessage)}
+            setValue={(value) => setFormInputValue('message', value)}
             errorMessage={inputErrors.message}
             label="Message*"
             value={message}
@@ -99,17 +97,17 @@ const Form = ({
           Recipients
         </Typography>
         <Table
-          checkIsItemSelected={(tokenToCheck) => tokensSelected.includes(tokenToCheck)}
-          onRemoveSelectedItems={() => setTokensSelected([])}
-          onSelectItem={({ token }) => onSelectToken(token)}
+          onSelectItem={({ notificationToken }: Pick<User, 'notificationToken'>) => onSelectToken(notificationToken)}
+          checkIsItemSelected={(tokenToCheck: string) => tokensSelected.includes(tokenToCheck)}
+          onRemoveSelectedItems={removeSelectedTokens}
           itemsSelectedCount={tokensSelected.length}
           config={usersNotificationsTableConfig}
           onSelectAllItems={onSelectAllTokens}
           loading={loading}
           dataset={users}
           withCheckboxes
-          withHeader
           withFilter
+          withHeader
         />
       </div>
       <div

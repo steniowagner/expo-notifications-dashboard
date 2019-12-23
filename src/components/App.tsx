@@ -1,5 +1,6 @@
 import React from 'react';
 import { ThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core/styles';
+import { grey } from '@material-ui/core/colors';
 
 import Notifications from './pages/notifications/components/Notifications';
 import HeaderBar from './common/HeaderBar';
@@ -12,6 +13,7 @@ const useStyles = makeStyles(() => ({
     bottom: 0,
     right: 0,
     overflow: 'auto',
+    backgroundColor: grey[50],
   },
 }));
 

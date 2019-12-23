@@ -1,32 +1,59 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { User } from '../../../../types';
 
-type SubmitForm = (title: string, message: string, tokens: string[]) => void;
-
-interface InputError {
+interface State {
+  tokensSelected: string[];
   message: string;
   title: string;
 }
 
+type InputErrors = Omit<State, 'tokensSelected'>;
+
+const INITIAL_FORM_STATE: State = {
+  tokensSelected: [],
+  message: '',
+  title: '',
+};
+
+const INITIAL_FORM_ERROR: InputErrors = {
+  message: '',
+  title: '',
+};
+
 const useNotificationsForm = (
   users: User[],
-  onSubmitForm: SubmitForm,
+  onSubmitForm: (title: string, message: string, tokensSelected: string[]) => void,
   setNoUserSelectedError: () => void,
 ) => {
-  const [inputErrors, setInputErrors] = useState<any>({});
-  const [tokensSelected, setTokensSelected] = useState<string[]>([]);
-  const [message, setMessage] = useState('');
-  const [title, setTitle] = useState('');
+  const [inputErrors, setInputErrors] = useState<InputErrors>(INITIAL_FORM_ERROR);
+  const [state, setState] = useState<State>(INITIAL_FORM_STATE);
 
-  const handleSetInputErrors = (id: string, errorMessage: string = 'This field is requierd') => {
-    setInputErrors((prevInputErrors: any) => ({
+  const handleSetInputErrors = (
+    id: keyof InputErrors,
+    errorMessage: string = 'This field is requierd',
+  ) => {
+    setInputErrors((prevInputErrors: InputErrors) => ({
       ...prevInputErrors,
       [id]: errorMessage,
     }));
   };
 
+  useEffect(() => {
+    const { message, title } = state;
+
+    if (message && inputErrors.message) {
+      handleSetInputErrors('message', '');
+    }
+
+    if (title && inputErrors.title) {
+      handleSetInputErrors('title', '');
+    }
+  }, [state, inputErrors]);
+
   const checkIsFormInputsValid = () => {
+    const { message, title } = state;
+
     const isFormValid = title && message;
 
     if (!title) {
@@ -40,12 +67,16 @@ const useNotificationsForm = (
     return isFormValid;
   };
 
-  const setFormInputValue = (id: string, value: string, setValue: (value: string) => void) => {
-    handleSetInputErrors(id, '');
-    setValue(value);
+  const setFormInputValue = (id: keyof State, value: string | string[]) => {
+    setState((previousState: State) => ({
+      ...previousState,
+      [id]: value,
+    }));
   };
 
   const onPressSendButton = () => {
+    const { title, message, tokensSelected } = state;
+
     if (tokensSelected.length === 0) {
       setNoUserSelectedError();
     }
@@ -57,44 +88,40 @@ const useNotificationsForm = (
     }
   };
 
-  const handleSelectToken = (token: string) =>
-    setTokensSelected(previousTokens => [token, ...previousTokens]);
+  const handleSelectToken = (token: string) => {
+    setFormInputValue('tokensSelected', [token, ...state.tokensSelected]);
+  };
 
-  const handleUnselectToken = (token: string) =>
-    setTokensSelected(previousTokens =>
-      previousTokens.filter(previousToken => previousToken !== token),
-    );
+  const handleUnselectToken = (token: string) => {
+    const tokensFiltered = state.tokensSelected.filter(stateToken => stateToken !== token);
+
+    setFormInputValue('tokensSelected', tokensFiltered);
+  };
 
   const onSelectToken = (token: string) => {
-    const isTokenAlreadySelected = tokensSelected.includes(token);
+    const isTokenAlreadySelected = state.tokensSelected.includes(token);
 
-    if (isTokenAlreadySelected) {
-      handleUnselectToken(token);
-    } else {
-      handleSelectToken(token);
-    }
+    const action = isTokenAlreadySelected ? handleUnselectToken : handleSelectToken;
+
+    action(token);
   };
 
   const onSelectAllTokens = () => {
-    const isSameLength = tokensSelected.length === users.length;
+    const isSameLength = state.tokensSelected.length === users.length;
 
-    const tokens = isSameLength ? [] : users.map(user => user.token);
+    const tokensSelected = isSameLength ? [] : users.map(user => user.notificationToken);
 
-    setTokensSelected(tokens);
+    setFormInputValue('tokensSelected', tokensSelected);
   };
 
   return {
+    ...state,
+    removeSelectedTokens: () => setFormInputValue('tokensSelected', []),
     onSelectAllTokens,
     onPressSendButton,
     setFormInputValue,
-    setTokensSelected,
-    tokensSelected,
     onSelectToken,
     inputErrors,
-    setMessage,
-    setTitle,
-    message,
-    title,
   };
 };
 

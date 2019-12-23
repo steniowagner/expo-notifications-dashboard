@@ -1,6 +1,6 @@
 export interface User {
+  notificationToken: string;
   email: string;
-  token: string;
   name: string;
   id: string;
 }
