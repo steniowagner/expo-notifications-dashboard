@@ -11,7 +11,7 @@ const sortDataset = (array: any[], compare: (itemA: any, itemB: any) => number) 
     return a[1] - b[1];
   });
 
-  return dataset.map(item => item[0]);
+  return dataset.map((item: any) => item[0]);
 };
 
 export default sortDataset;

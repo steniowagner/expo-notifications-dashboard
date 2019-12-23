@@ -2,7 +2,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { grey } from '@material-ui/core/colors';
 
-import Form from './form/Form';
+import useNotificationsPage from '../hooks/useNotificationsPage';
+import Snackbar from '../../../common/Snackbar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,17 +17,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Notifications = () => {
+  const { setIsSnackbarOpen, isSnackbarOpen, snackbarConfig } = useNotificationsPage();
   const classes = useStyles();
 
   return (
     <div
       className={classes.root}
     >
-      <Form
-        setNoUserSelectedError={() => {}}
-        onSubmitForm={() => {}}
-        loading={false}
-        users={[]}
+      <Snackbar
+        onClose={() => setIsSnackbarOpen(false)}
+        duration={snackbarConfig.duration}
+        message={snackbarConfig.message}
+        type={snackbarConfig.type}
+        isOpen={isSnackbarOpen}
       />
     </div>
   );

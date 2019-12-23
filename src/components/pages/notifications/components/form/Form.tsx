@@ -1,18 +1,15 @@
 import React from 'react';
 import {
-  Typography,
-  Tooltip,
-  Paper,
-  Fab,
+  Typography, Tooltip, Paper, Fab,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Send as SendIcon } from '@material-ui/icons';
 
-import { usersNotificationsTableConfig } from '../../../common/table/configs';
-import useNotificationsForm from '../hooks/useNotificationsForm';
-import Table from '../../../common/table/Table';
-import Input from '../../../common/Input';
-import { User } from '../../../../types';
+import { usersNotificationsTableConfig } from '../../../../common/table/configs';
+import useNotificationsForm from '../../hooks/useNotificationsForm';
+import Table from '../../../../common/table/Table';
+import Input from '../../../../common/Input';
+import { User } from '../../../../../types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,10 +39,7 @@ interface Props {
 }
 
 const Form = ({
-  setNoUserSelectedError,
-  onSubmitForm,
-  loading,
-  users,
+  setNoUserSelectedError, onSubmitForm, loading, users,
 }: Props) => {
   const {
     onSelectAllTokens,

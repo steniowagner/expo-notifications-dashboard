@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core/styles';
 
-import Notifications from './pages/notifications/Notifications';
+import Notifications from './pages/notifications/components/Notifications';
 import HeaderBar from './common/HeaderBar';
 
 const useStyles = makeStyles(() => ({

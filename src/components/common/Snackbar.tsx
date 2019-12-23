@@ -1,6 +1,8 @@
 import React from 'react';
 import { SnackbarContent, IconButton, Snackbar } from '@material-ui/core';
-import { indigo, amber, grey, green } from '@material-ui/core/colors';
+import {
+  indigo, amber, grey, green,
+} from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   CheckCircle as CheckCircleIcon,
@@ -12,9 +14,9 @@ import {
 } from '@material-ui/icons';
 import clsx from 'clsx';
 
-import types from './types';
+import { SnackbarTypes } from '../../types';
 
-const useContetStyles = makeStyles(theme => ({
+const useContetStyles = makeStyles((theme) => ({
   icon: {
     fontSize: 20,
   },
@@ -28,7 +30,7 @@ const useContetStyles = makeStyles(theme => ({
   },
 }));
 
-const useSnackbarStyles = makeStyles(theme => ({
+const useSnackbarStyles = makeStyles((theme) => ({
   success: {
     backgroundColor: green[600],
   },
@@ -48,29 +50,27 @@ const useSnackbarStyles = makeStyles(theme => ({
 
 type Class = Record<'success' | 'error' | 'info' | 'warning' | 'unkown', string>;
 
-type Type = 'INFORMATION' | 'WARNING' | 'SUCCESS' | 'ERROR';
-
-const getConfig = (classes: Class, type: Type) => {
+const getConfig = (classes: Class, type: keyof SnackbarTypes) => {
   switch (type) {
-    case types.INFORMATION:
+    case 'INFORMATION':
       return {
         Icon: InfoIcon,
         className: classes.info,
       };
 
-    case types.ERROR:
+    case 'ERROR':
       return {
         Icon: ErrorIcon,
         className: classes.error,
       };
 
-    case types.SUCCESS:
+    case 'SUCCESS':
       return {
         Icon: CheckCircleIcon,
         className: classes.success,
       };
 
-    case types.WARNING:
+    case 'WARNING':
       return {
         Icon: WarningIcon,
         className: classes.warning,
@@ -85,14 +85,16 @@ const getConfig = (classes: Class, type: Type) => {
 };
 
 interface Props {
-  type: 'INFORMATION' | 'WARNING' | 'SUCCESS' | 'ERROR';
+  type: keyof SnackbarTypes;
   onClose: () => void;
-  duration: number;
+  duration?: number;
   message: string;
   isOpen: boolean;
 }
 
-const CustomSnackbar = ({ duration, onClose, message, isOpen, type }: Props) => {
+const CustomSnackbar = ({
+  duration, onClose, message, isOpen, type,
+}: Props) => {
   const snackbarStyles = useSnackbarStyles();
   const classes = useContetStyles();
 
@@ -114,19 +116,32 @@ const CustomSnackbar = ({ duration, onClose, message, isOpen, type }: Props) => 
         vertical: 'bottom',
         horizontal: 'left',
       }}
-      open={isOpen}>
+      open={isOpen}
+    >
       <SnackbarContent
         aria-describedby="client-snackbar"
         className={className}
-        message={
-          <span className={classes.message} id="client-snackbar">
-            <Icon className={clsx(classes.icon, classes.iconVariant)} />
+        message={(
+          <span
+            className={classes.message}
+            id="client-snackbar"
+          >
+            <Icon
+              className={clsx(classes.icon, classes.iconVariant)}
+            />
             {message}
           </span>
-        }
+        )}
         action={[
-          <IconButton aria-label="close" onClick={onClose} color="inherit" key="close">
-            <CloseIcon className={classes.icon} />
+          <IconButton
+            aria-label="close"
+            onClick={onClose}
+            color="inherit"
+            key="close"
+          >
+            <CloseIcon
+              className={classes.icon}
+            />
           </IconButton>,
         ]}
       />
