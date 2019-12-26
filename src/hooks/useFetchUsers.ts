@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 
+import SERVER_BASE_URL from '../api';
 import useFetch from './useFetch';
 import { User } from '../types';
 
 const fetchOptions = {
-  url: 'http://192.168.25.4:4000/expo-notifications/api/v1/users',
+  url: `${SERVER_BASE_URL}/users`,
   method: 'GET',
 };
 

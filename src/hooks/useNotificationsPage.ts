@@ -3,10 +3,10 @@ import { useCallback, useEffect, useState } from 'react';
 import getSnackbarConfig, {
   Types as SnackbarTypes,
   Config as SnackbarConfig,
-} from '../config/snackbar';
+} from '../components/pages/notifications/config/snackbar';
 
-import useSendNotifications from '../../../../hooks/useSendNotifications';
-import useFetchUsers from '../../../../hooks/useFetchUsers';
+import useSendNotifications from './useSendNotifications';
+import useFetchUsers from './useFetchUsers';
 
 const INITIAL_SNACKBAR_STATE: SnackbarConfig = {
   type: 'SUCCESS',
@@ -15,6 +15,7 @@ const INITIAL_SNACKBAR_STATE: SnackbarConfig = {
 };
 
 const useNotificationsPage = () => {
+  const [isNotificationsDialogResultsOpen, setIsNotificationsDialogResultsOpen] = useState(false);
   const [snackbar, setSnackbar] = useState<SnackbarConfig>(INITIAL_SNACKBAR_STATE);
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
 
@@ -23,9 +24,9 @@ const useNotificationsPage = () => {
   );
 
   const {
-    response: sendingNotificationsResult,
     error: errorSendingNotifitations,
     isLoading: sendingNotifications,
+    response: notificationsResult,
     sendNotifications,
   } = useSendNotifications();
 
@@ -62,10 +63,11 @@ const useNotificationsPage = () => {
   }, [setSnackbarConfig, sendingNotifications, fetchUsers]);
 
   useEffect(() => {
-    if (!sendingNotifications && sendingNotificationsResult) {
+    if (!sendingNotifications && notificationsResult) {
+      setIsNotificationsDialogResultsOpen(true);
       setIsSnackbarOpen(false);
     }
-  }, [setSnackbarConfig, sendingNotificationsResult, sendingNotifications]);
+  }, [setSnackbarConfig, notificationsResult, sendingNotifications]);
 
   useEffect(() => {
     if (errorSendingNotifitations) {
@@ -74,13 +76,16 @@ const useNotificationsPage = () => {
   }, [setSnackbarConfig, errorSendingNotifitations]);
 
   return {
-    snackbarConfig: snackbar,
+    onCloseNotificationsResult: () => setIsNotificationsDialogResultsOpen(false),
     closeSnackbar: () => setIsSnackbarOpen(false),
-    setSnackbarConfig,
-    isSnackbarOpen,
-    sendNotifications,
+    isNotificationsDialogResultsOpen,
+    snackbarConfig: snackbar,
     isLoading: loadingUsers,
+    notificationsResult,
     users: users || [],
+    setSnackbarConfig,
+    sendNotifications,
+    isSnackbarOpen,
   };
 };
 

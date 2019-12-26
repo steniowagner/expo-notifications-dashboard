@@ -28,6 +28,6 @@ export interface TableConfig {
   initiallyOrderedBy: string;
   headerCells: HeaderCell[];
   selectedVerifier: string;
-  filters: string[];
+  filters?: string[];
   fields: string[];
 }

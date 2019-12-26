@@ -1,9 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import useNotificationsPage from '../hooks/useNotificationsPage';
+import useNotificationsPage from '../../../../hooks/useNotificationsPage';
 import Snackbar from '../../../common/Snackbar';
-import Form from './form/Form';
+import ResultsModal from './ResultsModal';
+import Form from './Form';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,11 +18,14 @@ const useStyles = makeStyles((theme) => ({
 
 const Notifications = () => {
   const {
+    isNotificationsDialogResultsOpen,
+    onCloseNotificationsResult,
+    notificationsResult,
     sendNotifications,
     setSnackbarConfig,
-    closeSnackbar,
     isSnackbarOpen,
     snackbarConfig,
+    closeSnackbar,
     isLoading,
     users,
   } = useNotificationsPage();
@@ -37,6 +41,11 @@ const Notifications = () => {
         onSubmitForm={sendNotifications}
         loading={isLoading}
         users={users}
+      />
+      <ResultsModal
+        isOpen={isNotificationsDialogResultsOpen}
+        onClose={onCloseNotificationsResult}
+        results={notificationsResult}
       />
       <Snackbar
         duration={snackbarConfig.duration}

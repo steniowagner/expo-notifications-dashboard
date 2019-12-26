@@ -4,7 +4,7 @@ import { Typography, Toolbar, AppBar } from '@material-ui/core/';
 
 import { NotificationsActive as NotificationsActiveIcon } from '@material-ui/icons';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
@@ -27,13 +27,26 @@ const HeaderBar = () => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static" color="primary">
+    <div
+      className={classes.root}
+    >
+      <AppBar
+        position="static"
+        color="primary"
+      >
         <Toolbar>
-          <div className={classes.logoWrapper}>
-            <NotificationsActiveIcon fontSize="small" color="primary" />
+          <div
+            className={classes.logoWrapper}
+          >
+            <NotificationsActiveIcon
+              fontSize="small"
+              color="primary"
+            />
           </div>
-          <Typography className={classes.title} variant="h6">
+          <Typography
+            className={classes.title}
+            variant="h6"
+          >
             Notifications Dashboard
           </Typography>
         </Toolbar>

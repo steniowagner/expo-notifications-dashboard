@@ -24,7 +24,7 @@ const headerCells = [
     label: 'Reason',
   },
   {
-    id: 'token',
+    id: 'notificationToken',
     isNumeric: false,
     disablePadding: true,
     label: 'Token',
@@ -32,9 +32,9 @@ const headerCells = [
 ];
 
 const pushNotificationsErrors = {
-  fields: ['id', 'name', 'email', 'message', 'token'],
+  fields: ['id', 'name', 'email', 'reason', 'notificationToken'],
+  selectedVerifier: 'notificationToken',
   initiallyOrderedBy: 'name',
-  selectedVerifier: 'token',
   headerCells,
 };
 

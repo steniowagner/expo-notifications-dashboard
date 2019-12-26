@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 
+import SERVER_BASE_URL from '../api';
 import useFetch from './useFetch';
 
 const useSendNotifications = () => {
@@ -8,7 +9,7 @@ const useSendNotifications = () => {
   const sendNotifications = useCallback(
     (title: string, body: string, tokens: string[]) => {
       const params = {
-        url: 'http://192.168.25.4:4000/expo-notifications/api/v1/push-notifications',
+        url: `${SERVER_BASE_URL}/push-notifications`,
         method: 'POST',
         body: {
           tokens,

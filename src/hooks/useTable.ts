@@ -1,13 +1,13 @@
 import { ChangeEvent, useCallback, useState, useEffect } from 'react';
 
-import { sortDescendent, sortDataset } from '../../../../utils/array';
-import { filterByText } from '../../../../utils/filters';
-import { TableOrder } from '../../../../types';
+import { sortDescendent, sortDataset } from '../utils/array';
+import { filterByText } from '../utils/filters';
+import { TableOrder } from '../types';
 
 const DESCENDENT_ORDER = 'desc';
 const ASCENDENT_ORDER = 'asc';
 
-const useTable = (initiallyOrderedBy: string, dataset: any[], filters: string[]) => {
+const useTable = (initiallyOrderedBy: string, dataset: any[], filters: string[] = []) => {
   const [orderBy, setOrderBy] = useState<string>(initiallyOrderedBy);
   const [order, setOrder] = useState<TableOrder>(ASCENDENT_ORDER);
   const [datasetCopy, setDasetCopy] = useState<any[]>(dataset);

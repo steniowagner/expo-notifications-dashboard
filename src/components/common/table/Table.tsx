@@ -10,13 +10,12 @@ import {
   Table,
 } from '@material-ui/core';
 
+import useTable from '../../../hooks/useTable';
+import { TableConfig } from '../../../types';
 import HeaderToolbar from './HeaderToolbar';
 import EnhancedTableRow from './TableRow';
-import useTable from './hooks/useTable';
 import TableHead from './TableHead';
 import Filter from './Filter';
-
-import { TableConfig } from '../../../types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,10 +54,10 @@ const shouldComponentUpdate = (previousProps: Props, nextProps: Props) => {
 };
 
 interface Props {
-  checkIsItemSelected: (token: string) => boolean;
-  onSelectItem: (item: any) => void;
-  onRemoveSelectedItems: () => void;
-  onSelectAllItems: () => void;
+  checkIsItemSelected?: (token: string) => boolean;
+  onSelectItem?: (item: any) => void;
+  onRemoveSelectedItems?: () => void;
+  onSelectAllItems?: () => void;
   itemsSelectedCount: number;
   withCheckboxes: boolean;
   withHeader: boolean;
@@ -69,10 +68,10 @@ interface Props {
 }
 
 const EnhancedTable = ({
-  onRemoveSelectedItems,
+  onRemoveSelectedItems = () => {},
+  onSelectAllItems = () => {},
   checkIsItemSelected,
   itemsSelectedCount,
-  onSelectAllItems,
   withCheckboxes,
   onSelectItem,
   withHeader,
@@ -154,13 +153,16 @@ const EnhancedTable = ({
             />
             <TableBody>
               {items.map((rowData, index) => {
-                const isItemSelected = withCheckboxes && checkIsItemSelected(rowData[selectedVerifier]);
+                const isItemSelected = withCheckboxes
+                  && checkIsItemSelected
+                  && checkIsItemSelected(rowData[selectedVerifier]);
+
                 const key = `enhanced-tableRow-${index}`;
 
                 return (
                   <EnhancedTableRow
-                    onClickTableRow={() => withCheckboxes && onSelectItem(rowData)}
-                    isItemSelected={isItemSelected}
+                    onClickTableRow={() => withCheckboxes && onSelectItem && onSelectItem(rowData)}
+                    isItemSelected={!!isItemSelected}
                     withCheckboxes={withCheckboxes}
                     cellsIds={fields}
                     rowData={rowData}

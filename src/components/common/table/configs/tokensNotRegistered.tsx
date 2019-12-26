@@ -18,7 +18,7 @@ const headerCells = [
     label: 'E-mail',
   },
   {
-    id: 'token',
+    id: 'notificationToken',
     isNumeric: false,
     disablePadding: true,
     label: 'Token',
@@ -26,9 +26,9 @@ const headerCells = [
 ];
 
 const tokensNotRegistered = {
-  fields: ['id', 'name', 'email', 'token'],
+  fields: ['id', 'name', 'email', 'notificationToken'],
+  selectedVerifier: 'notificationToken',
   initiallyOrderedBy: 'name',
-  selectedVerifier: 'token',
   headerCells,
 };
 

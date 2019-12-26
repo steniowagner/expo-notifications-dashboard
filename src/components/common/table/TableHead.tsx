@@ -1,8 +1,6 @@
 import React, { memo } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  TableSortLabel, TableCell, TableHead, TableRow, Checkbox,
-} from '@material-ui/core';
+import { TableSortLabel, TableCell, TableHead, TableRow, Checkbox } from '@material-ui/core';
 
 import { HeaderCell, TableOrder } from '../../../types';
 
@@ -33,10 +31,10 @@ interface Props {
 
 const shouldComponentUpdate = (previousProps: Props, nextProps: Props) => {
   if (
-    previousProps.orderBy !== nextProps.orderBy
-    || previousProps.numberItemsSelected !== nextProps.numberItemsSelected
-    || previousProps.datasetLength !== nextProps.datasetLength
-    || previousProps.order !== nextProps.order
+    previousProps.orderBy !== nextProps.orderBy ||
+    previousProps.numberItemsSelected !== nextProps.numberItemsSelected ||
+    previousProps.datasetLength !== nextProps.datasetLength ||
+    previousProps.order !== nextProps.order
   ) {
     return false;
   }
@@ -64,10 +62,7 @@ const EnhancedTableHead = ({
     <TableHead>
       <TableRow>
         {withCheckboxes && (
-          <TableCell
-            padding="checkbox"
-            align="left"
-          >
+          <TableCell padding="checkbox" align="left">
             <Checkbox
               indeterminate={numberItemsSelected > 0 && numberItemsSelected < datasetLength}
               checked={numberItemsSelected !== 0 && numberItemsSelected === datasetLength}
@@ -77,22 +72,18 @@ const EnhancedTableHead = ({
             />
           </TableCell>
         )}
-        {headerCells.map((headerCell) => (
+        {headerCells.map(headerCell => (
           <TableCell
             sortDirection={orderBy === headerCell.id ? order : false}
             key={headerCell.id}
-            align="left"
-          >
+            align="left">
             <TableSortLabel
               onClick={createSortHandler(headerCell.id)}
               active={orderBy === headerCell.id}
-              direction={order}
-            >
+              direction={order}>
               {headerCell.label}
               {orderBy === headerCell.id ? (
-                <span
-                  className={classes.visuallyHidden}
-                >
+                <span className={classes.visuallyHidden}>
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </span>
               ) : null}
