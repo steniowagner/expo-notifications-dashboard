@@ -19,7 +19,7 @@ const Notifications = () => {
   const {
     sendNotifications,
     setSnackbarConfig,
-    setIsSnackbarOpen,
+    closeSnackbar,
     isSnackbarOpen,
     snackbarConfig,
     isLoading,
@@ -39,10 +39,10 @@ const Notifications = () => {
         users={users}
       />
       <Snackbar
-        onClose={() => setIsSnackbarOpen(false)}
         duration={snackbarConfig.duration}
         message={snackbarConfig.message}
         type={snackbarConfig.type}
+        onClose={closeSnackbar}
         isOpen={isSnackbarOpen}
       />
     </div>

@@ -29,12 +29,8 @@ const App = () => {
   const classes = useStyles();
 
   return (
-    <div
-      className={classes.root}
-    >
-      <ThemeProvider
-        theme={theme}
-      >
+    <div className={classes.root}>
+      <ThemeProvider theme={theme}>
         <HeaderBar />
         <Notifications />
       </ThemeProvider>

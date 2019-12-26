@@ -23,7 +23,7 @@ const emptyFetchOptions = {
   headers,
 };
 
-const INITIAL_STATE = {
+const INITIAL_STATE: State = {
   loading: false,
   response: null,
   error: null,
@@ -54,7 +54,7 @@ const useFetch = (
 
     const stateUpdated = rawResponse.ok ? { response: fetchResponse } : { error: fetchResponse };
 
-    setState(preivousState => ({
+    setState((preivousState: State) => ({
       ...preivousState,
       ...stateUpdated,
       loading: false,
@@ -74,7 +74,7 @@ const useFetch = (
     try {
       await startFetch();
     } catch (fetchError) {
-      setState(preivousState => ({
+      setState((preivousState: State) => ({
         ...preivousState,
         error: fetchError.message,
         loading: false,
@@ -95,9 +95,9 @@ const useFetch = (
   }, [fireWhenMounted, fetchData, options]);
 
   return {
-    fetchData: setOptions,
     isLoading: state.loading,
     response: state.response,
+    fetchData: setOptions,
     error: state.error,
   };
 };

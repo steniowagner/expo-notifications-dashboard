@@ -7,8 +7,10 @@ export type Config = {
 };
 
 export type Types = {
+  SENDING_NOTIFICATIONS_SUCCESS: string;
   SEND_NOTIFICATIONS_ERROR: string;
   SENDING_NOTIFICATIONS: string;
+  LOADING_USERS_SUCCESS: string;
   LOADING_USERS_ERROR: string;
   MISSED_SELECT_USERS: string;
   LOADING_USERS: string;
@@ -30,6 +32,12 @@ const configs: Configs = {
     type: 'ERROR',
   },
 
+  LOADING_USERS_SUCCESS: {
+    message: 'Users loaded successfully',
+    duration: 3000,
+    type: 'SUCCESS',
+  },
+
   MISSED_SELECT_USERS: {
     message: 'You must select at least one user',
     type: 'WARNING',
@@ -39,6 +47,12 @@ const configs: Configs = {
   SENDING_NOTIFICATIONS: {
     message: 'Sending notifications...',
     type: 'INFORMATION',
+  },
+
+  SENDING_NOTIFICATIONS_SUCCESS: {
+    message: 'Notifications sent successfully',
+    duration: 3000,
+    type: 'SUCCESS',
   },
 
   SEND_NOTIFICATIONS_ERROR: {

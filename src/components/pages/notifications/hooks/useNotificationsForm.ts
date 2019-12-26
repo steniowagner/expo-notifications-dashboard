@@ -107,11 +107,20 @@ const useNotificationsForm = (
   };
 
   const onSelectAllTokens = () => {
-    const isSameLength = state.tokensSelected.length === users.length;
+    const { tokensSelected } = state;
 
-    const tokensSelected = isSameLength ? [] : users.map(user => user.notificationToken);
+    const isNoTokensSelected = !tokensSelected.length;
+    const isAllTokensSeleted = !isNoTokensSelected && tokensSelected.length === users.length;
+    const isSomeTokensSelected = !isAllTokensSeleted && !isNoTokensSelected;
 
-    setFormInputValue('tokensSelected', tokensSelected);
+    if (isAllTokensSeleted) {
+      setFormInputValue('tokensSelected', []);
+    }
+
+    if (isNoTokensSelected || isSomeTokensSelected) {
+      const allTokens = users.map(user => user.notificationToken);
+      setFormInputValue('tokensSelected', allTokens);
+    }
   };
 
   return {

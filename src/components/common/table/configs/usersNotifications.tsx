@@ -18,7 +18,7 @@ const headerCells = [
     label: 'E-mail',
   },
   {
-    id: 'token',
+    id: 'notificationToken',
     isNumeric: false,
     disablePadding: true,
     label: 'Token',
@@ -26,10 +26,10 @@ const headerCells = [
 ];
 
 const usersNotifications = {
-  fields: ['id', 'name', 'email', 'token'],
-  filters: ['id', 'name', 'email', 'token'],
+  fields: ['id', 'name', 'email', 'notificationToken'],
+  selectedVerifier: 'notificationToken',
+  filters: ['id', 'name', 'email'],
   initiallyOrderedBy: 'name',
-  selectedVerifier: 'token',
   headerCells,
 };
 

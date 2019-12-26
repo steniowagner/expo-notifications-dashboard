@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import getSnackbarConfig, {
   Types as SnackbarTypes,
   Config as SnackbarConfig,
 } from '../config/snackbar';
 
-import useFetch from '../../../../hooks/useFetch';
-import { User } from '../../../../types';
+import useSendNotifications from '../../../../hooks/useSendNotifications';
+import useFetchUsers from '../../../../hooks/useFetchUsers';
 
 const INITIAL_SNACKBAR_STATE: SnackbarConfig = {
   type: 'SUCCESS',
@@ -17,61 +17,70 @@ const INITIAL_SNACKBAR_STATE: SnackbarConfig = {
 const useNotificationsPage = () => {
   const [snackbar, setSnackbar] = useState<SnackbarConfig>(INITIAL_SNACKBAR_STATE);
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
-  const [users, setUsers] = useState<User[]>([]);
 
-  const { fetchData, isLoading, error, response } = useFetch();
+  const { error: errorFetchingUsers, isLoading: loadingUsers, fetchUsers, users } = useFetchUsers(
+    false,
+  );
 
-  const setSnackbarConfig = (type: keyof SnackbarTypes) => {
+  const {
+    response: sendingNotificationsResult,
+    error: errorSendingNotifitations,
+    isLoading: sendingNotifications,
+    sendNotifications,
+  } = useSendNotifications();
+
+  const setSnackbarConfig = useCallback((type: keyof SnackbarTypes) => {
     const snackbarConfig = getSnackbarConfig(type);
 
     setSnackbar(snackbarConfig);
 
     setIsSnackbarOpen(true);
-  };
+  }, []);
 
   useEffect(() => {
     setSnackbarConfig('LOADING_USERS');
 
-    fetchData({
-      url: 'http://192.168.25.4:4000/expo-notifications/api/v1/users',
-      method: 'GET',
-    });
-  }, [fetchData]);
-
-  const sendNotifications = (title: string, message: string, tokens: string[]) => {
-    console.log(title, message, tokens);
-    /* fetchData({
-      url: 'http://192.168.25.4:4000/expo-notifications/api/v1/users',
-      method: 'POST',
-      body: {
-        message,
-        tokens,
-        title,
-      },
-    }); */
-  };
+    fetchUsers();
+  }, [setSnackbarConfig, fetchUsers]);
 
   useEffect(() => {
-    if (response && response.users) {
-      setUsers(response.users);
+    if (errorFetchingUsers) {
+      setSnackbarConfig('LOADING_USERS_ERROR');
+    }
+  }, [setSnackbarConfig, errorFetchingUsers]);
+
+  useEffect(() => {
+    if (!loadingUsers && users) {
+      setSnackbarConfig('LOADING_USERS_SUCCESS');
+    }
+  }, [setSnackbarConfig, users, loadingUsers]);
+
+  useEffect(() => {
+    setSnackbarConfig('SENDING_NOTIFICATIONS');
+
+    fetchUsers();
+  }, [setSnackbarConfig, sendingNotifications, fetchUsers]);
+
+  useEffect(() => {
+    if (!sendingNotifications && sendingNotificationsResult) {
       setIsSnackbarOpen(false);
     }
-  }, [response]);
+  }, [setSnackbarConfig, sendingNotificationsResult, sendingNotifications]);
 
   useEffect(() => {
-    if (error) {
+    if (errorSendingNotifitations) {
       setSnackbarConfig('SEND_NOTIFICATIONS_ERROR');
     }
-  }, [error]);
+  }, [setSnackbarConfig, errorSendingNotifitations]);
 
   return {
     snackbarConfig: snackbar,
-    sendNotifications,
+    closeSnackbar: () => setIsSnackbarOpen(false),
     setSnackbarConfig,
-    setIsSnackbarOpen,
     isSnackbarOpen,
-    isLoading,
-    users,
+    sendNotifications,
+    isLoading: loadingUsers,
+    users: users || [],
   };
 };
 
