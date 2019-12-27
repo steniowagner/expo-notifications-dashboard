@@ -56,7 +56,7 @@ const configs: Configs = {
   },
 
   SEND_NOTIFICATIONS_ERROR: {
-    message: 'There was an error sending notifications',
+    message: 'There was an error when trying to send notifications',
     duration: 3000,
     type: 'ERROR',
   },

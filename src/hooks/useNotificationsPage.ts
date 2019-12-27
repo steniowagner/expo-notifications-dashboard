@@ -57,9 +57,10 @@ const useNotificationsPage = () => {
   }, [setSnackbarConfig, users, loadingUsers]);
 
   useEffect(() => {
-    setSnackbarConfig('SENDING_NOTIFICATIONS');
-
-    fetchUsers();
+    if (sendingNotifications) {
+      setSnackbarConfig('SENDING_NOTIFICATIONS');
+      fetchUsers();
+    }
   }, [setSnackbarConfig, sendingNotifications, fetchUsers]);
 
   useEffect(() => {
