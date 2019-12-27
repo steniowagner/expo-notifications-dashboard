@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Typography, Tooltip, Paper, Fab,
-} from '@material-ui/core';
+import { Typography, Tooltip, Paper, Fab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Send as SendIcon } from '@material-ui/icons';
 
@@ -11,7 +9,7 @@ import Table from '../../../common/table/Table';
 import Input from '../../../common/Input';
 import { User } from '../../../../types';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -38,9 +36,7 @@ interface Props {
   users: User[];
 }
 
-const Form = ({
-  setNoUserSelectedError, onSubmitForm, loading, users,
-}: Props) => {
+const Form = ({ setNoUserSelectedError, onSubmitForm, loading, users }: Props) => {
   const {
     removeSelectedTokens,
     onSelectAllTokens,
@@ -56,30 +52,21 @@ const Form = ({
   const classes = useStyles();
 
   return (
-    <Paper
-      className={classes.root}
-    >
-      <div
-        className={classes.section}
-      >
-        <Typography
-          component="h3"
-          variant="h5"
-        >
+    <Paper className={classes.root}>
+      <div className={classes.section}>
+        <Typography component="h3" variant="h5">
           Notification
         </Typography>
-        <div
-          className={classes.inputWrapper}
-        >
+        <div className={classes.inputWrapper}>
           <Input
-            setValue={(value) => setFormInputValue('title', value)}
+            setValue={value => setFormInputValue('title', value)}
             errorMessage={inputErrors.title}
             label="Title*"
             value={title}
             id="title"
           />
           <Input
-            setValue={(value) => setFormInputValue('message', value)}
+            setValue={value => setFormInputValue('message', value)}
             errorMessage={inputErrors.message}
             label="Message*"
             value={message}
@@ -87,17 +74,14 @@ const Form = ({
           />
         </div>
       </div>
-      <div
-        className={classes.section}
-      >
-        <Typography
-          component="h3"
-          variant="h5"
-        >
+      <div className={classes.section}>
+        <Typography component="h3" variant="h5">
           Recipients
         </Typography>
         <Table
-          onSelectItem={({ notificationToken }: Pick<User, 'notificationToken'>) => onSelectToken(notificationToken)}
+          onSelectItem={({ notificationToken }: Pick<User, 'notificationToken'>) =>
+            onSelectToken(notificationToken)
+          }
           checkIsItemSelected={(tokenToCheck: string) => tokensSelected.includes(tokenToCheck)}
           onRemoveSelectedItems={removeSelectedTokens}
           itemsSelectedCount={tokensSelected.length}
@@ -110,18 +94,9 @@ const Form = ({
           withHeader
         />
       </div>
-      <div
-        className={classes.sendButtonWrapper}
-      >
-        <Tooltip
-          aria-label="send"
-          placement="left"
-          title="Send"
-        >
-          <Fab
-            onClick={onPressSendButton}
-            color="primary"
-          >
+      <div className={classes.sendButtonWrapper}>
+        <Tooltip aria-label="send" placement="left" title="Send">
+          <Fab onClick={onPressSendButton} color="primary">
             <SendIcon />
           </Fab>
         </Tooltip>

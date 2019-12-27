@@ -47,18 +47,28 @@ const useFetch = (
   }, [options]);
 
   const startFetch = useCallback(async (): Promise<void> => {
-    const fetchOptions = getFetchOptions();
+    try {
+      const fetchOptions = getFetchOptions();
 
-    const rawResponse = await fetch(options.url, fetchOptions);
-    const fetchResponse = await rawResponse.json();
+      const rawResponse = await fetch(options.url, fetchOptions);
+      const fetchResponse = await rawResponse.json();
 
-    const stateUpdated = rawResponse.ok ? { response: fetchResponse } : { error: fetchResponse };
+      const stateUpdated = rawResponse.ok
+        ? { response: fetchResponse }
+        : { error: fetchResponse.message || fetchResponse };
 
-    setState((preivousState: State) => ({
-      ...preivousState,
-      ...stateUpdated,
-      loading: false,
-    }));
+      setState((preivousState: State) => ({
+        ...preivousState,
+        ...stateUpdated,
+        loading: false,
+      }));
+    } catch (err) {
+      setState((preivousState: State) => ({
+        ...preivousState,
+        error: err.message,
+        loading: false,
+      }));
+    }
   }, [getFetchOptions, options.url]);
 
   const fetchData = useCallback(async () => {
@@ -71,15 +81,7 @@ const useFetch = (
       loading: true,
     }));
 
-    try {
-      await startFetch();
-    } catch (fetchError) {
-      setState((preivousState: State) => ({
-        ...preivousState,
-        error: fetchError.message,
-        loading: false,
-      }));
-    }
+    await startFetch();
   }, [startFetch, options]);
 
   useEffect(() => {

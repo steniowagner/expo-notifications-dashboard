@@ -6,7 +6,7 @@ import Snackbar from '../../../common/Snackbar';
 import ResultsModal from './ResultsModal';
 import Form from './Form';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     widht: '100%',
@@ -33,9 +33,7 @@ const Notifications = () => {
   const classes = useStyles();
 
   return (
-    <div
-      className={classes.root}
-    >
+    <div className={classes.root}>
       <Form
         setNoUserSelectedError={() => setSnackbarConfig('MISSED_SELECT_USERS')}
         onSubmitForm={sendNotifications}

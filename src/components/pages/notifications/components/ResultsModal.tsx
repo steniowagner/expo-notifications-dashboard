@@ -19,7 +19,7 @@ import {
 } from '../../../common/table/configs';
 import { TableConfig, User } from '../../../../types';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   providerIcon: {
     display: 'flex',
     widht: '100%',
@@ -66,8 +66,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TOKENS_NOT_REGISTERED_MESSAGE = 'The following users uninstalled the app of their devices and will not be listed to receive notifications anymore:';
-const SEND_NOTIFICATION_ERROR_MESSAGE = 'The following notifications were not delivered to the users:';
+const TOKENS_NOT_REGISTERED_MESSAGE =
+  'The following users uninstalled the app of their devices and will not be listed to receive notifications anymore:';
+const SEND_NOTIFICATION_ERROR_MESSAGE =
+  'The following notifications were not delivered to the users:';
 
 type ShippingError = {
   reason: string;
@@ -75,9 +77,9 @@ type ShippingError = {
 };
 
 type Results = {
-  shippingErrors: ShippingError[],
-  usersNotRegistered: User[],
-}
+  shippingErrors: ShippingError[];
+  usersNotRegistered: User[];
+};
 
 interface Props {
   onClose: () => void;
@@ -92,18 +94,11 @@ interface ResultTableParams {
   title: string;
 }
 
-const ResultsModal = ({
-  onClose,
-  isOpen,
-  results,
-}: Props) => {
+const ResultsModal = ({ onClose, isOpen, results }: Props) => {
   const classes = useStyles();
 
   const renderProviderData = () => (
-    <DialogContentText
-      id="scroll-dialog-description"
-      tabIndex={-1}
-    >
+    <DialogContentText id="scroll-dialog-description" tabIndex={-1}>
       All notifications have been successfully sent to their respective providers!
     </DialogContentText>
   );
@@ -117,13 +112,8 @@ const ResultsModal = ({
     <div
       className={clsx(classes.table, {
         [classes.wrapperWithMarginBottom]: wrapperWithMarginBottom === true,
-      })}
-    >
-      <Typography
-        variant="body1"
-      >
-        {title}
-      </Typography>
+      })}>
+      <Typography variant="body1">{title}</Typography>
       <Table
         withCheckboxes={false}
         itemsSelectedCount={0}
@@ -138,8 +128,8 @@ const ResultsModal = ({
 
   const hasUsersNotRegistered = results && !!results.usersNotRegistered.length;
 
-  const isSendNotificationsSuccessful = results
-    && !results.usersNotRegistered.length && !results.shippingErrors.length;
+  const isSendNotificationsSuccessful =
+    results && !results.usersNotRegistered.length && !results.shippingErrors.length;
 
   const hasErrors = results && !!results.shippingErrors.length;
 
@@ -151,36 +141,30 @@ const ResultsModal = ({
       onClose={onClose}
       maxWidth="lg"
       scroll="paper"
-      open={isOpen}
-    >
-      <DialogTitle
-        id="scroll-dialog-title"
-      >
-        Notifications sent
-      </DialogTitle>
+      open={isOpen}>
+      <DialogTitle id="scroll-dialog-title">Notifications sent</DialogTitle>
       <DialogContent>
         {isSendNotificationsSuccessful && renderProviderData()}
-        {hasErrors && renderResultTables({
-          config: pushNotificationsErrorsTableConfig,
-          title: SEND_NOTIFICATION_ERROR_MESSAGE,
-          wrapperWithMarginBottom: true,
-          dataset: results.shippingErrors.map(({ user, reason }) => ({
-            ...user,
-            reason,
-          })),
-        })}
-        {hasUsersNotRegistered && renderResultTables({
-          config: tokensNotRegisteredTableConfig,
-          title: TOKENS_NOT_REGISTERED_MESSAGE,
-          dataset: results.usersNotRegistered,
-          wrapperWithMarginBottom: false,
-        })}
+        {hasErrors &&
+          renderResultTables({
+            config: pushNotificationsErrorsTableConfig,
+            title: SEND_NOTIFICATION_ERROR_MESSAGE,
+            wrapperWithMarginBottom: true,
+            dataset: results.shippingErrors.map(({ user, reason }) => ({
+              ...user,
+              reason,
+            })),
+          })}
+        {hasUsersNotRegistered &&
+          renderResultTables({
+            config: tokensNotRegisteredTableConfig,
+            title: TOKENS_NOT_REGISTERED_MESSAGE,
+            dataset: results.usersNotRegistered,
+            wrapperWithMarginBottom: false,
+          })}
       </DialogContent>
       <DialogActions>
-        <Button
-          onClick={onClose}
-          color="primary"
-        >
+        <Button onClick={onClose} color="primary">
           OK
         </Button>
       </DialogActions>

@@ -17,7 +17,7 @@ import EnhancedTableRow from './TableRow';
 import TableHead from './TableHead';
 import Filter from './Filter';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
     marginTop: theme.spacing(3),
@@ -43,9 +43,9 @@ const useStyles = makeStyles((theme) => ({
 
 const shouldComponentUpdate = (previousProps: Props, nextProps: Props) => {
   if (
-    previousProps.itemsSelectedCount !== nextProps.itemsSelectedCount
-    || previousProps.dataset.length !== nextProps.dataset.length
-    || previousProps.loading !== nextProps.loading
+    previousProps.itemsSelectedCount !== nextProps.itemsSelectedCount ||
+    previousProps.dataset.length !== nextProps.dataset.length ||
+    previousProps.loading !== nextProps.loading
   ) {
     return false;
   }
@@ -80,9 +80,7 @@ const EnhancedTable = ({
   dataset,
   config,
 }: Props) => {
-  const {
-    initiallyOrderedBy, selectedVerifier, headerCells, filters, fields,
-  } = config;
+  const { initiallyOrderedBy, selectedVerifier, headerCells, filters, fields } = config;
 
   const {
     handleChangeRowsPerPage,
@@ -102,12 +100,8 @@ const EnhancedTable = ({
 
   if (loading) {
     return (
-      <div
-        className={classes.root}
-      >
-        <Paper
-          className={classes.loadingWrapper}
-        >
+      <div className={classes.root}>
+        <Paper className={classes.loadingWrapper}>
           <CircularProgress />
         </Paper>
       </div>
@@ -115,32 +109,21 @@ const EnhancedTable = ({
   }
 
   return (
-    <div
-      className={classes.root}
-    >
-      <Paper
-        className={classes.paper}
-      >
+    <div className={classes.root}>
+      <Paper className={classes.paper}>
         {withHeader && (
           <HeaderToolbar
             numberItemsSelected={itemsSelectedCount}
             onClickDelete={onRemoveSelectedItems}
           />
         )}
-        {withFilter && (
-        <Filter
-          onFilter={onFilter}
-        />
-        )}
-        <div
-          className={classes.tableWrapper}
-        >
+        {withFilter && <Filter onFilter={onFilter} />}
+        <div className={classes.tableWrapper}>
           <Table
             aria-labelledby="tableTitle"
             aria-label="enhanced table"
             className={classes.table}
-            size="medium"
-          >
+            size="medium">
             <TableHead
               numberItemsSelected={itemsSelectedCount}
               onSelectAllClick={onSelectAllItems}
@@ -153,9 +136,10 @@ const EnhancedTable = ({
             />
             <TableBody>
               {items.map((rowData, index) => {
-                const isItemSelected = withCheckboxes
-                  && checkIsItemSelected
-                  && checkIsItemSelected(rowData[selectedVerifier]);
+                const isItemSelected =
+                  withCheckboxes &&
+                  checkIsItemSelected &&
+                  checkIsItemSelected(rowData[selectedVerifier]);
 
                 const key = `enhanced-tableRow-${index}`;
 
@@ -172,19 +156,17 @@ const EnhancedTable = ({
                 );
               })}
               {numberEmptyRows > 0 && (
-                <TableRow
-                  style={{ height: 53 * numberEmptyRows }}
-                >
-                  <TableCell
-                    colSpan={6}
-                  />
+                <TableRow style={{ height: 53 * numberEmptyRows }}>
+                  <TableCell colSpan={6} />
                 </TableRow>
               )}
             </TableBody>
           </Table>
         </div>
         <TablePagination
-          labelDisplayedRows={({ from, to, count }) => `${from}-${to === -1 ? count : to} of ${count}`}
+          labelDisplayedRows={({ from, to, count }) =>
+            `${from}-${to === -1 ? count : to} of ${count}`
+          }
           onChangePage={(_, newPage) => setPage(newPage)}
           onChangeRowsPerPage={handleChangeRowsPerPage}
           rowsPerPageOptions={[5, 10, 25]}
