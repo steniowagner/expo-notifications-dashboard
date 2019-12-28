@@ -1,6 +1,6 @@
 
 
-# expo-notifications-app
+# expo-notifications-dashboard
 
 ![Preview-Screens](https://github.com/steniowagner/expo-notifications-dashboard/blob/master/img/flow.png)
 
